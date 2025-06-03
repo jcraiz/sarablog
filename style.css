@@ -1,0 +1,271 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    /* Page background color */
+    background-color: #0C193B; /* Dark blue */
+    color: #333; /* Default text color for content area */
+}
+
+main {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+    background: #fff; /* Keep main content area white */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Reading Progress Bar */
+#reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 8px;
+    /* Accent color similar to inteligeciaeduca.org */
+    background-color: #e67e22; /* A shade of orange */
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s ease-out;
+}
+
+header {
+    /* Dark header background similar to inteligeciaeduca.org */
+    background: #2c3e50; /* Dark bluish-grey */
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.blog-logo {
+    max-width: 80px;
+    height: auto;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+header h1 {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+nav {
+    /* Menu background */
+    background: #EFEFEF; /* Light grey */
+    color: #333; /* Default nav text color */
+    text-align: center;
+    padding: 0.5rem 0;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    /* Nav link color to contrast with light background */
+    color: #34495e; /* Match section titles */
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    /* Lighter hover color */
+    color: #2c3e50; /* Darker blue-grey on hover */
+}
+
+section {
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+section h2 {
+    /* Color for section titles */
+    color: #34495e; /* Match navigation background */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 0;
+    display: flex; /* Use flexbox to align title and icon */
+    align-items: center;
+    gap: 10px; /* Space between title and icon */
+}
+
+#story p {
+    margin-bottom: 15px;
+}
+
+.story-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease; /* Add transition for smooth zoom */
+}
+
+.story-image:hover {
+    transform: scale(1.05); /* Zoom effect on hover */
+}
+
+#timeline ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 0;
+}
+
+#timeline li {
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+#timeline li::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#quiz-container div {
+    margin-bottom: 20px;
+    padding: 15px;
+    /* Background color for quiz questions */
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+#quiz-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    position: relative; /* Needed for absolute positioning of tick */
+    padding-right: 20px; /* Make space for the tick */
+}
+
+#quiz-container input[type="radio"] {
+    margin-right: 5px;
+    vertical-align: middle; /* Align input with text */
+}
+
+#quiz-container .options label {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align items */
+    margin-right: 15px;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+#quiz-container .options label span {
+    margin-left: 5px; /* Space between radio button and text */
+    flex-grow: 1; /* Allow text to take up space */
+}
+
+#quiz-container .options label.correct {
+    color: green; /* Style for correct answers */
+}
+
+#quiz-container .options label.incorrect {
+    color: red; /* Style for incorrect answers */
+    text-decoration: line-through; /* Strikethrough incorrect selected answers */
+}
+
+#submit-quiz, #retry-quiz {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    /* Button background color */
+    background-color: #F6F203; /* Yellow */
+    color: #333; /* Text color for button */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Add some space above the retry button */
+}
+
+#submit-quiz:hover, #retry-quiz:hover {
+    background-color: #e0d903; /* Slightly darker yellow on hover */
+}
+
+#quiz-results {
+    margin-top: 20px;
+    padding: 15px;
+    /* Background and text color for quiz results */
+    background-color: #d4edda; /* Light green background */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#quiz-results h3 {
+    margin-top: 0;
+    color: #155724;
+}
+
+.comment {
+    /* Background color for comments */
+    background-color: #ecf0f1; /* Light grey background */
+    border: 1px solid #bdc3c7; /* Border color */
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.comment-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+    border: 2px solid #34495e; /* Border around avatars */
+    transition: transform 0.3s ease; /* Add transition for smooth zoom */
+}
+
+.comment-avatar:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+}
+
+.comment p {
+    margin: 0;
+    flex-grow: 1;
+}
+
+.comment strong {
+    /* Color for comment author name */
+    color: #34495e; /* Match navigation background */
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 20px;
+    /* Dark footer background similar to inteligeciaeduca.org */
+    background: #2c3e50; /* Dark bluish-grey */
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+footer p {
+    margin: 0;
+}

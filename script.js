@@ -1,0 +1,202 @@
+import _ from 'lodash';
+
+const quizQuestions = [
+    {
+        question: "What time does Sarah arrive at the inn?",
+        options: ["12 PM", "1 PM", "2 PM", "Morning"],
+        answer: "1 PM"
+    },
+    {
+        question: "How long is the flight?",
+        options: ["One hour", "Two hours", "Three hours", "Less than an hour"],
+        answer: "Two hours"
+    },
+    {
+        question: "How much does the flight cost?",
+        options: ["Fifty dollars", "Sixty dollars", "Free", "Unknown"],
+        answer: "Fifty dollars"
+    },
+    {
+        question: "Where does Sarah go sightseeing after the meal?",
+        options: ["The mountains", "The city center", "The forest", "The shore"],
+        answer: "The shore"
+    },
+    {
+        question: "How does Sarah pay for her meal?",
+        options: ["Credit card", "Check", "Cash", "Mobile pay"],
+        answer: "Cash"
+    },
+    {
+        question: "How does Sarah travel to the railway station the next day?",
+        options: ["Train", "Taxi", "Coach", "Walks"],
+        answer: "Coach"
+    },
+    {
+        question: "Does Sarah like the hill town?",
+        options: ["Yes", "No"],
+        answer: "Yes"
+    },
+     {
+        question: "Is her bedroom big?",
+        options: ["Yes", "No"],
+        answer: "No"
+    },
+     {
+        question: "Does the shower water work well and is it hot?",
+        options: ["Yes", "No"],
+        answer: "Yes"
+    },
+     {
+        question: "Who shows her the way to the washroom?",
+        options: ["A woman", "A man"],
+        answer: "A man"
+    }
+];
+
+const quizContainer = document.getElementById('quiz-container');
+const submitButton = document.getElementById('submit-quiz');
+const resultsDiv = document.getElementById('quiz-results');
+const scoreSpan = document.getElementById('score');
+const totalQuestionsSpan = document.getElementById('total-questions');
+const scoreMessage = document.getElementById('score-message');
+const progressBar = document.getElementById('reading-progress-bar');
+const retryButton = document.getElementById('retry-quiz'); 
+const audioIcon = document.getElementById('audio-icon'); 
+const audioPlayerContainer = document.getElementById('audio-player-container'); 
+
+
+let audioContext;
+let correctSoundBuffer;
+let incorrectSoundBuffer;
+
+async function loadSound(url) {
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    const response = await fetch(url);
+    const arrayBuffer = await response.arrayBuffer();
+    return await audioContext.decodeAudioData(arrayBuffer);
+}
+
+function playSound(buffer) {
+    console.log('Sound playback skipped.');
+}
+
+async function loadSounds() {
+    try {
+        console.log('Sound loading skipped: correct_sound.mp3 and incorrect_sound.mp3');
+    } catch (error) {
+        console.error('Error loading sounds:', error);
+    }
+}
+
+function renderQuiz() {
+    quizContainer.innerHTML = '';
+    totalQuestionsSpan.textContent = quizQuestions.length;
+    resultsDiv.style.display = 'none'; 
+    submitButton.disabled = false; 
+
+    quizQuestions.forEach((q, index) => {
+        const questionDiv = document.createElement('div');
+        questionDiv.classList.add('question');
+        questionDiv.dataset.index = index; 
+
+        const questionText = document.createElement('p');
+        questionText.textContent = `${index + 1}. ${q.question}`;
+        questionDiv.appendChild(questionText);
+
+        const optionsDiv = document.createElement('div');
+        optionsDiv.classList.add('options');
+
+        q.options.forEach(option => {
+            const optionLabel = document.createElement('label');
+            const optionInput = document.createElement('input');
+            optionInput.type = 'radio';
+            optionInput.name = `question${index}`;
+            optionInput.value = option;
+
+            const optionTextSpan = document.createElement('span'); 
+            optionTextSpan.textContent = option;
+
+            optionLabel.appendChild(optionInput);
+            optionLabel.appendChild(optionTextSpan); 
+            optionsDiv.appendChild(optionLabel);
+        });
+
+        questionDiv.appendChild(optionsDiv);
+        quizContainer.appendChild(questionDiv);
+    });
+}
+
+function checkQuiz() {
+    let score = 0;
+    const questions = quizContainer.querySelectorAll('.question');
+
+    questions.forEach(questionDiv => {
+        const index = parseInt(questionDiv.dataset.index);
+        const question = quizQuestions[index];
+        const selectedOptionInput = questionDiv.querySelector(`input[name="question${index}"]:checked`);
+        const optionLabels = questionDiv.querySelectorAll('.options label');
+
+        optionLabels.forEach(label => {
+            const input = label.querySelector('input');
+            input.disabled = true;
+            label.classList.remove('correct', 'incorrect');
+
+            if (input.value === question.answer) {
+                label.classList.add('correct'); 
+            }
+
+            if (selectedOptionInput && input === selectedOptionInput && selectedOptionInput.value !== question.answer) {
+                 label.classList.add('incorrect'); 
+            }
+        });
+
+
+        if (selectedOptionInput && selectedOptionInput.value === question.answer) {
+            score++;
+        } else if (selectedOptionInput && selectedOptionInput.value !== question.answer) {
+        } else {
+        }
+    });
+
+    scoreSpan.textContent = score;
+    resultsDiv.style.display = 'block';
+
+    let message = `You got ${score} out of ${quizQuestions.length} questions correct. `;
+    if (score === quizQuestions.length) {
+        message += _.capitalize("perfect score! Well done!");
+    } else if (score > quizQuestions.length / 2) {
+        message += _.capitalize("good effort!");
+    } else {
+        message += _.capitalize("keep reading the story and try again!");
+    }
+    scoreMessage.textContent = message;
+
+    submitButton.disabled = true; 
+}
+
+function updateReadingProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    const progress = (scrollHeight - clientHeight > 0) ? (scrollTop / (scrollHeight - clientHeight)) * 100 : 100;
+    progressBar.style.width = progress + '%';
+}
+
+loadSounds();
+
+renderQuiz();
+
+submitButton.addEventListener('click', checkQuiz);
+
+retryButton.addEventListener('click', renderQuiz); 
+
+window.addEventListener('scroll', updateReadingProgress);
+
+audioIcon.addEventListener('click', () => {
+    const isHidden = audioPlayerContainer.style.display === 'none';
+    audioPlayerContainer.style.display = isHidden ? 'block' : 'none';
+});
+
+updateReadingProgress();
